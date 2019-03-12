@@ -106,7 +106,7 @@ public class Inicio extends javax.swing.JFrame {
             Connection conexion = establecerConexion();
             PreparedStatement ps;
             ResultSet resultado;
-            ps = conexion.prepareStatement("SELECT * FROM usuario WHERE usuario='"+usuario+"'and codigo='"+clave+"'");
+            ps = conexion.prepareStatement("SELECT * FROM usuario WHERE usuario='"+usuario+"'and clave='"+clave+"'");
             resultado = ps.executeQuery();
             
             if(resultado.next()){
@@ -137,16 +137,15 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_usuarioActionPerformed
 
    public static Connection establecerConexion(){
-    
-        Connection conexion = null;
+        
+       Connection conexion = null;
         
         try{
-            
             Class.forName("com.mysql.cj.jdbc.Driver");
             conexion = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             
         } catch(Exception e){
-            System.out.println(e);
+            System.out.println("No se ha podido conectar a la base de dato " + e);
         }
         return conexion;
     }
