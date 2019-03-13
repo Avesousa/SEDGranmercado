@@ -14,6 +14,7 @@ public class Inicio extends javax.swing.JFrame {
     public Inicio() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.boton_ingresar.setEnabled(false);
     }
     
     public Image getIconImage(){
@@ -77,9 +78,11 @@ public class Inicio extends javax.swing.JFrame {
         usuario.setBackground(new java.awt.Color(30, 45, 59));
         usuario.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         usuario.setForeground(new java.awt.Color(255, 255, 255));
-        usuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usuarioActionPerformed(evt);
+        usuario.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                usuarioInputMethodTextChanged(evt);
             }
         });
         getContentPane().add(usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 296, 270, 60));
@@ -121,7 +124,6 @@ public class Inicio extends javax.swing.JFrame {
         } catch(Exception e){
             System.out.println(e);
         }
-        
     }//GEN-LAST:event_boton_ingresarActionPerformed
 
     private void boton_cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_cerrarActionPerformed
@@ -132,9 +134,9 @@ public class Inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_claveActionPerformed
 
-    private void usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usuarioActionPerformed
+    private void usuarioInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_usuarioInputMethodTextChanged
+        if(this.usuario.getText())
+    }//GEN-LAST:event_usuarioInputMethodTextChanged
 
    public static Connection establecerConexion(){
         
