@@ -3,11 +3,10 @@ package Ventanas;
 
 import Clases.Usuario;
 
-public class Sistema extends javax.swing.JFrame {
-    public Sistema(String u, String na, int c) {
+public class Sistema_usuario extends javax.swing.JFrame {
+    public Sistema_usuario(String u, String na, int c) {
         initComponents();
         Usuario user = new Usuario(u,na,c);
-        cambiarDatos(c);
         System.out.println("El cargo es: " + c);
         this.setLocationRelativeTo(null);
     }
@@ -32,7 +31,6 @@ public class Sistema extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(950, 700));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/background2.jpg"))); // NOI18N
@@ -111,27 +109,7 @@ public class Sistema extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    public void cambiarDatos(int c){
-        switch (c){
-            case 2: 
-                this.devolver_facturas_sistema.setVisible(false);
-                this.agregar_producto_sistema.setVisible(false);
-                this.modificar_producto_sistema.setVisible(false);
-                this.eliminar_producto_sistema.setVisible(false);
-                this.reporte_sistema.setVisible(false);
-                break;
-            case 3:
-                break;
-            default:
-                this.agregar_producto_sistema.setVisible(false);
-                this.modificar_producto_sistema.setVisible(false);
-                this.eliminar_producto_sistema.setVisible(false);
-                this.reporte_sistema.setVisible(false);
-                this.facturas_sistema.setVisible(false);
-    }
-    }
-    
+
     private void salir_archivo_sistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salir_archivo_sistemaActionPerformed
         System.exit(0);
     }//GEN-LAST:event_salir_archivo_sistemaActionPerformed

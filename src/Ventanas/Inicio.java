@@ -1,16 +1,18 @@
 package Ventanas;
+import Clases.Conexion;
+import static Clases.Conexion.establecerConexion;
+import Clases.Usuario;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Inicio extends javax.swing.JFrame {
-    public static final String URL = "jdbc:mysql://localhost/granmercado";
-    public static final String USERNAME = "avesousa";
-    public static final String PASSWORD = "26390042";
     public Inicio() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -78,20 +80,23 @@ public class Inicio extends javax.swing.JFrame {
         usuario.setBackground(new java.awt.Color(30, 45, 59));
         usuario.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         usuario.setForeground(new java.awt.Color(255, 255, 255));
-        usuario.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+        usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usuarioActionPerformed(evt);
             }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                usuarioInputMethodTextChanged(evt);
+        });
+        usuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                usuarioKeyReleased(evt);
             }
         });
         getContentPane().add(usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 296, 270, 60));
 
         clave.setBackground(new java.awt.Color(30, 45, 59));
         clave.setForeground(new java.awt.Color(255, 255, 255));
-        clave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                claveActionPerformed(evt);
+        clave.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                claveKeyReleased(evt);
             }
         });
         getContentPane().add(clave, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 360, 270, 60));
@@ -103,25 +108,12 @@ public class Inicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void boton_ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_ingresarActionPerformed
-        try{
             String usuario = this.usuario.getText();
             String clave = String.valueOf(this.clave.getPassword());
-            Connection conexion = establecerConexion();
-            PreparedStatement ps;
-            ResultSet resultado;
-            ps = conexion.prepareStatement("SELECT * FROM usuario WHERE usuario='"+usuario+"'and clave='"+clave+"'");
-            resultado = ps.executeQuery();
-            
-            if(resultado.next()){
-                new Sistema().setVisible(true);
-                this.dispose();
-                JOptionPane.showMessageDialog(null, "¡Bienvenid@! " + resultado.getString("nombre") + " " + resultado.getString("apellido"));
-            } else{
-                JOptionPane.showMessageDialog(null, "El usuario o contraseña ingresado, son INCORRECTOS");
-            }
-            resultado.close();
-            
-        } catch(Exception e){
+            Conexion entrando = new Conexion();
+        try {
+            entrando.conectar_usuario(("SELECT * FROM usuario WHERE usuario='"+usuario+"'and clave='"+clave+"'"), this);
+        } catch (Exception e) {
             System.out.println(e);
         }
     }//GEN-LAST:event_boton_ingresarActionPerformed
@@ -130,55 +122,34 @@ public class Inicio extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_boton_cerrarActionPerformed
 
-    private void claveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_claveActionPerformed
-
-    private void usuarioInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_usuarioInputMethodTextChanged
-        if(this.usuario.getText())
-    }//GEN-LAST:event_usuarioInputMethodTextChanged
-
-   public static Connection establecerConexion(){
-        
-       Connection conexion = null;
-        
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conexion = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            
-        } catch(Exception e){
-            System.out.println("No se ha podido conectar a la base de dato " + e);
+    private void usuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usuarioKeyReleased
+        if(!this.usuario.getText().equals("") && !String.valueOf(this.clave.getPassword()).equals("")){
+            this.boton_ingresar.setEnabled(true);
+        }else{
+            this.boton_ingresar.setEnabled(false);
         }
-        return conexion;
+    }//GEN-LAST:event_usuarioKeyReleased
+
+    private void claveKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_claveKeyReleased
+        if(!this.usuario.getText().equals("") && !String.valueOf(this.clave.getPassword()).equals("")){
+            this.boton_ingresar.setEnabled(true);
+        }else{
+            this.boton_ingresar.setEnabled(false);
+        }
+    }//GEN-LAST:event_claveKeyReleased
+
+    private void usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usuarioActionPerformed
+    public void setVacios(String valor){
+        this.usuario.setText(valor);
+        this.clave.setText(valor);
     }
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Inicio().setVisible(true);
+               Inicio ventanaPrincipal =  new Inicio();
+               ventanaPrincipal.setVisible(true);
             }
         });
     }
