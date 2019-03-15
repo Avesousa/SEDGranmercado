@@ -3,8 +3,6 @@ package Clases;
 
 import Ventanas.Inicio;
 import Ventanas.Sistema;
-import Ventanas.Sistema_facturador;
-import Ventanas.Sistema_usuario;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,6 +11,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Conexion {
     private static final String URL = "jdbc:mysql://localhost/granmercado";
@@ -23,15 +22,16 @@ public class Conexion {
     public String nombreApellido;
     public String usuario;
     public int cargo;
+    private PreparedStatement ps;
     public Conexion() {
         System.out.println("comenzo en el constructor");
         this.conectador = establecerConexion();
     }
     
-    public void conectar_usuario(String valor, Inicio v) throws SQLException{
+    public void conectar_usuario(Inicio v) throws SQLException{
         try {
-            PreparedStatement ps = this.conectador.prepareStatement(valor);
-            this.resultado = ps.executeQuery();
+            this.ps = this.conectador.prepareStatement(("SELECT * FROM usuario WHERE usuario='"+v.usuarioR+"'and clave=('"+v.claveR+"')"));
+            this.resultado = this.ps.executeQuery();
            if(this.resultado.next()){
                this.nombreApellido = (resultado.getString("nombre") + " " + resultado.getString("apellido"));
                this.cargo = resultado.getInt("id_cargo");
@@ -64,4 +64,24 @@ public class Conexion {
         }
         return conexion;
     }
+    
+    public void traer_clientes(DefaultTableModel tabla){
+        Object [] fila = null;
+        try{
+            this.ps = this.conectador.prepareStatement(("SELECT * FROM clientes"));
+            this.resultado = this.ps.executeQuery();
+            while(this.resultado.next()){
+                 fila = new Object[4];
+                for(int i = 0; i<4;i++){
+                    fila[i] = this.resultado.getObject(i+2);
+                }
+                tabla.addRow(fila);
+            }
+            this.conectador.close();
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }
+
 }

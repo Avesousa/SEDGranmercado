@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Inicio extends javax.swing.JFrame {
+    public String usuarioR;
+    public String claveR;
     public Inicio() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -65,7 +67,7 @@ public class Inicio extends javax.swing.JFrame {
         getContentPane().add(boton_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 10, 110, 40));
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logo.png"))); // NOI18N
-        getContentPane().add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 200, 210));
+        getContentPane().add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 20, 790, 280));
 
         titulo_usuario.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
         titulo_usuario.setForeground(new java.awt.Color(255, 255, 255));
@@ -80,11 +82,7 @@ public class Inicio extends javax.swing.JFrame {
         usuario.setBackground(new java.awt.Color(30, 45, 59));
         usuario.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         usuario.setForeground(new java.awt.Color(255, 255, 255));
-        usuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usuarioActionPerformed(evt);
-            }
-        });
+        usuario.setText("Avesousa");
         usuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 usuarioKeyReleased(evt);
@@ -94,6 +92,7 @@ public class Inicio extends javax.swing.JFrame {
 
         clave.setBackground(new java.awt.Color(30, 45, 59));
         clave.setForeground(new java.awt.Color(255, 255, 255));
+        clave.setText("26390042");
         clave.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 claveKeyReleased(evt);
@@ -108,11 +107,11 @@ public class Inicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void boton_ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_ingresarActionPerformed
-            String usuario = this.usuario.getText();
-            String clave = String.valueOf(this.clave.getPassword());
+            usuarioR = this.usuario.getText();
+            claveR = String.valueOf(this.clave.getPassword());
             Conexion entrando = new Conexion();
         try {
-            entrando.conectar_usuario(("SELECT * FROM usuario WHERE usuario='"+usuario+"'and clave='"+clave+"'"), this);
+            entrando.conectar_usuario(this);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -137,10 +136,6 @@ public class Inicio extends javax.swing.JFrame {
             this.boton_ingresar.setEnabled(false);
         }
     }//GEN-LAST:event_claveKeyReleased
-
-    private void usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usuarioActionPerformed
     public void setVacios(String valor){
         this.usuario.setText(valor);
         this.clave.setText(valor);
@@ -157,11 +152,11 @@ public class Inicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton_cerrar;
     private javax.swing.JButton boton_ingresar;
-    private javax.swing.JPasswordField clave;
+    public static javax.swing.JPasswordField clave;
     private javax.swing.JLabel fondo;
     private javax.swing.JLabel logo;
     private javax.swing.JLabel titulo_clave;
     private javax.swing.JLabel titulo_usuario;
-    private javax.swing.JTextField usuario;
+    public static javax.swing.JTextField usuario;
     // End of variables declaration//GEN-END:variables
 }
