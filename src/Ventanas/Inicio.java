@@ -40,7 +40,9 @@ public class Inicio extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
+        setMinimumSize(new java.awt.Dimension(950, 600));
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(950, 600));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         boton_ingresar.setBackground(new java.awt.Color(30, 45, 59));
@@ -67,7 +69,7 @@ public class Inicio extends javax.swing.JFrame {
         getContentPane().add(boton_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 10, 110, 40));
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logo.png"))); // NOI18N
-        getContentPane().add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 20, 790, 280));
+        getContentPane().add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, 790, 280));
 
         titulo_usuario.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
         titulo_usuario.setForeground(new java.awt.Color(255, 255, 255));

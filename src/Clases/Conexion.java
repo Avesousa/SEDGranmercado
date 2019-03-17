@@ -28,6 +28,20 @@ public class Conexion {
         this.conectador = establecerConexion();
     }
     
+    public static Connection establecerConexion(){
+        
+       Connection conexion = null;
+        
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conexion = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, "No se ha podido conectar a la base de dato ");
+            System.out.println(e);
+        }
+        return conexion;
+    }
     public void conectar_usuario(Inicio v) throws SQLException{
         try {
             this.ps = this.conectador.prepareStatement(("SELECT * FROM usuario WHERE usuario='"+v.usuarioR+"'and clave=('"+v.claveR+"')"));
@@ -50,21 +64,6 @@ public class Conexion {
         
         this.conectador.close();
     }
-    
-    public static Connection establecerConexion(){
-        
-       Connection conexion = null;
-        
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conexion = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(null, "No se ha podido conectar a la base de dato " + e);
-        }
-        return conexion;
-    }
-    
     public void traer_clientes(DefaultTableModel tabla){
         Object [] fila = null;
         try{
@@ -82,6 +81,16 @@ public class Conexion {
         catch(Exception e){
             System.out.println(e);
         }
+        
     }
-
+    public void editar_clientes(){
+       try{
+           String sql = "UPDATE `granmercado`.`clientes` SET `documento_cliente` = '', `razonsocial` = '', `telefono_cliente` = '', `direccion_cliente` = '' WHERE (`documento_cliente` = '');";
+           this.ps = this.conectador.prepareStatement((sql));
+           this.resultado = this.ps.executeQuery();
+       }
+       catch(Exception e){
+           System.out.println(e);
+       } 
+    }
 }
